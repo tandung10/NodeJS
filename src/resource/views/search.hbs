@@ -1,10 +1,21 @@
-<div class="search-form">
-    <form method="GET">
-        <div class="mb-3">
-            <label for="search-input" class="form-label">Enter keyword</label>
-            <input type="text" name="q" class="form-control" id="search-input" placeholder="Enter keyword">
+{{! Body website }}
+<div class="mt-4">
+    <div class="row">
+
+        {{#each courses}}
+
+        <div class="col-sm-6 col-lg-4">
+            <div class="card card-course_item">
+                <img src="{{this.image}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">{{this.description}}</p>
+                    <a href="#" class="btn btn-primary">Buy Course</a>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        {{/each}}
+
+    </div>
 </div>

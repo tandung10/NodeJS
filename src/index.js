@@ -9,6 +9,11 @@ const app = express()
 const port = 3000
 const route = require('./Routes/index');
 
+const db = require('./config/db/index');
+
+// Connect to DB
+db.connect();
+
 // Middleware for post method
 app.use(express.urlencoded(
     {
