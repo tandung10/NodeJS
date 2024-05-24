@@ -3,9 +3,22 @@
 const express = require('express')
 const path = require('path');
 const { engine } = require('express-handlebars');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const { log } = require('console');
 const app = express()
 const port = 3000
+const route = require('./Routes/index');
+
+// Middleware for post method
+app.use(express.urlencoded(
+    {
+        extended: true
+
+    }
+))
+
+// Middleware for json
+app.use(express.json()) // fetch, axios, ajax, jquery
 
 // Static file
 app.use(express.static(path.join(__dirname, 'public')))
@@ -19,17 +32,11 @@ app.set('views', path.join(__dirname, 'resource/views'));
 // console.log(path.join(__dirname, 'resource/views'));
 
 // HTTP logger
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
 
-// Render home page
-app.get('/', (req, res) => {
-    res.render('home')
-})
 
-// Render Search page
-app.get('/search', (req, res) => {
-    res.render('search')
-})
+// Route init
+route(app);
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)
