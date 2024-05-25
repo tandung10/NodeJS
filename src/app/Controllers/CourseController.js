@@ -19,6 +19,23 @@ class CourseController {
         }
     }
 
+    // GET /courses/create
+    async create(req, res, next) {
+        res.render('courses/create');
+    }
+
+    // POST /courses/store
+    async store(req, res, next) {
+        try {
+            const course = new Course(req.body);
+            await course.save()
+            res.redirect('/');
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
 }
 
 module.exports = new CourseController;

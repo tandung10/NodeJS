@@ -4,7 +4,7 @@ async function connect() {
     try {
         await await mongoose.connect('mongodb://127.0.0.1:27017/Education_Dev',
             {
-                useNewUrlParser: true, useUnifiedTopology: true
+                useNewUrlParser: true, useUnifiedTopology: true,
             });
         console.log('Connect successfully!!!');
     }
