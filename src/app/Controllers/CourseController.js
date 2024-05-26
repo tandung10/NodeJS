@@ -35,7 +35,41 @@ class CourseController {
             next(error);
         }
     }
+    // GET /courses/:id/edit
+    async edit(req, res, next) {
+        try {
+            const course = await Course.findById(req.params.id);
+            if (course) {
+                res.render('courses/edit', { course: mongooseToObject(course) });
+            } else {
+                res.status(404).json({ error: 'Course not found' });
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
 
+    // PUT /courses/:id
+    async update(req, res, next) {
+        try {
+            // res.json(req.body);
+            const course = await Course.updateOne({ _id: req.params.id }, req.body);
+            res.redirect('/me/stored/courses');
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+
+    // DELETE /courses/:id
+    async delete(req, res, next) {
+        try {
+            await Course.deleteOne({ _id: req.params.id });
+            res.redirect('back');
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new CourseController;

@@ -5,6 +5,7 @@ const path = require('path');
 const { engine } = require('express-handlebars');
 const morgan = require('morgan');
 const { log } = require('console');
+const methodOverride = require('method-override');
 const app = express()
 const port = 3000
 const route = require('./Routes/index');
@@ -14,11 +15,13 @@ const db = require('./config/db/index');
 // Connect to DB
 db.connect();
 
+// Middleware for put, delete method
+app.use(methodOverride('_method')) // put, delete
+
 // Middleware for post method
 app.use(express.urlencoded(
     {
         extended: true
-
     }
 ))
 
@@ -29,8 +32,13 @@ app.use(express.json()) // fetch, axios, ajax, jquery
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Template engine
+
 app.engine('.hbs', engine({
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+        // sum is the name of the function that will be called in the view file
+        sum: (a, b) => a + b,
+    }
 }));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'resource/views'));

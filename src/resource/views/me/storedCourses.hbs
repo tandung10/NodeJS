@@ -1,0 +1,114 @@
+<div class="mt-4">
+    <h3>Courses of me</h3>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Courses name</th>
+                <th scope="col">Level</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+            <tr>
+                {{!-- sum is the name of the function that will be called in the view file --}}
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.level}}</td>
+                <td>{{this.description}}</td>
+                <td>
+                    <a href="/courses/{{this._id}}/edit" class="btn btn-primary">Edit</a>
+                    <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCourse-model"
+                        data-id="{{this._id}}">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>
+
+{{!-- Form --}}
+{{!-- <form name="delete-courses" method="POST">
+
+</form> --}}
+
+{{!-- Dialog delete --}}
+<div id="deleteCourse-model" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You want to Delete ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btn-delete_course" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!--
+// Có thẻ form ẩn dòng 34, 35
+// C1
+const deleteCourseModel = document.getElementById('deleteCourse-model');
+const btnDeleteCourse = document.getElementById('btn-delete_course');
+const formDeleteCourse = document.forms['delete-courses'];
+
+deleteCourseModel.addEventListener('show.bs.modal', function (event) {
+const button = event.relatedTarget;
+const id = button.getAttribute('data-id');
+formDeleteCourse.setAttribute('action', `/courses/${id}?_method=DELETE`);
+});
+
+btnDeleteCourse.addEventListener('click', function () {
+formDeleteCourse.submit();
+});
+
+// C2
+document.addEventListener('DOMContentLoaded', function () {
+
+var courseID;
+var deleteForm = document.forms['delete-courses'];
+
+$('#deleteCourse-model').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget)
+courseID = button.data('id')
+//console.log(id);
+})
+
+const deleteCourse = document.getElementById('btn-delete_course')
+console.log(deleteCourse);
+deleteCourse.addEventListener('click', function () {
+//console.log('Delete course')
+deleteForm.action = '/courses/' + courseID + '?_method=DELETE'
+deleteForm.submit()
+})
+}) --}}
+
+<script>
+    // C3
+
+    const deleteCourseModel = document.getElementById('deleteCourse-model');
+    const btnDeleteCourse = document.getElementById('btn-delete_course');
+
+    deleteCourseModel.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        btnDeleteCourse.addEventListener('click', function () {
+            fetch(`/courses/${id}?_method=DELETE`, {
+                method: 'POST'
+            }).then(() => {
+                window.location.reload();
+            });
+        });
+    });
+
+</script>
